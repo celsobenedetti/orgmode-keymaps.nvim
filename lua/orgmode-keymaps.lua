@@ -377,7 +377,8 @@ function M.link()
 			return
 		end
 		local link = "[[" .. url .. "][" .. selected_text .. "]]"
-		vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2] - 1, end_pos[1] - 1, end_pos[2], { link })
+    local end_col = math.min(end_pos[2], vim.fn.col({end_pos[1], '$'}) - 1)
+		vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2] - 1, end_pos[1] - 1, end_col, { link })
 	end)
 end
 
