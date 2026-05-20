@@ -357,7 +357,6 @@ function M.code()
 end
 
 function M.link()
-	local ctx = exit_visual_if_active()
 	local start_pos = get_mark("<")
 	local end_pos = get_mark(">")
 
@@ -377,7 +376,7 @@ function M.link()
 			return
 		end
 		local link = "[[" .. url .. "][" .. selected_text .. "]]"
-    local end_col = math.min(end_pos[2], vim.fn.col({end_pos[1], '$'}) - 1)
+		local end_col = math.min(end_pos[2], vim.fn.col({ end_pos[1], "$" }) - 1)
 		vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2] - 1, end_pos[1] - 1, end_col, { link })
 	end)
 end
@@ -418,4 +417,3 @@ function M.setup(opts)
 end
 
 return M
-
