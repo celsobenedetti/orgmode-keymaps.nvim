@@ -352,7 +352,7 @@ function M.code()
 	if visual_mode == "V" then
 		newline_surround("#+BEGIN_SRC", "#+END_SRC")
 	else
-		inline_surround("=", "=", nil, ctx.block_info)
+		inline_surround("~", "~", nil, ctx.block_info)
 	end
 end
 
