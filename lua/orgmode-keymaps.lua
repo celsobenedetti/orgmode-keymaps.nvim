@@ -369,7 +369,10 @@ function M.link()
 	end
 
 	local text = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2] - 1, end_pos[1] - 1, end_pos[2], {})
-	local selected_text = table.concat(text, "\n")
+	local lines = vim.tbl_map(function(line)
+		return vim.trim(line)
+	end, text)
+	local selected_text = table.concat(lines, " ")
 
 	vim.ui.input({ prompt = "URL:" }, function(url)
 		if url == nil or url == "" then
