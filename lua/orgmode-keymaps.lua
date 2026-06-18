@@ -357,30 +357,12 @@ function M.code()
 end
 
 function M.link()
-	local start_pos = get_mark("<")
-	local end_pos = get_mark(">")
-
-	if not start_pos or not end_pos then
-		return
-	end
-
-	if vim.fn.visualmode() == "V" then
-		end_pos[2] = #get_line(end_pos[1])
-	end
-
-	local text = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2] - 1, end_pos[1] - 1, end_pos[2], {})
-	local lines = vim.tbl_map(function(line)
-		return vim.trim(line)
-	end, text)
-	local selected_text = table.concat(lines, " ")
-
+	local ctx = exit_visual_if_active()
 	vim.ui.input({ prompt = "URL:" }, function(url)
 		if url == nil or url == "" then
 			return
 		end
-		local link = "[[" .. url .. "][" .. selected_text .. "]]"
-		local end_col = math.min(end_pos[2], vim.fn.col({ end_pos[1], "$" }) - 1)
-		vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2] - 1, end_pos[1] - 1, end_col, { link })
+		inline_surround("[[" .. url .. "][", "]]", false, ctx.block_info)
 	end)
 end
 
